@@ -121,4 +121,51 @@ La lógica es la misma que la del código anterior, con la diferencia de que aho
 
 No tengo ganas de ponerme a revisar las 2 capturas de Strace pero me parece que también son iguales
 
-# 4. Módulos y Drivers
+# Módulos y Drivers
+
+## 1. ¿Cómo se denomina en GNU/Linux a la porción de código que se agrega al kernel en tiempo de ejecución? ¿Es necesario reiniciar el sistema al cargarlo?. Si no se pudiera utilizar esto. ¿Cómo deberíamos hacer para proveer la misma funcionalidad en GNU/Linux?
+
+Los módulos de GNU/Linux son archivos con código que permiten extender el funcionamiento del núcleo del SO en tiempo de ejecución.
+
+Una de las principales ventajas de los módulos es que no precisan reiniciar el sistema para funcionar, sino que pueden cargarse y descargarse en tiempo real. Además son archivos precompilados, por lo que no requieren volver a compilar el kernel.
+
+Si no existiesen los módulos, sería necesario modificar y recompilar el kernel cada vez que se le quiera agregar una nueva funcionalidad. Obviamente, aunque un SO soporte el uso de módulos hay casos en los que va a necesitar ser recompilado para agregar ciertas funciones específicas.
+
+## 2. ¿Qué es un driver? ¿para que se utiliza?
+
+Los drivers son programas de software que se utilizan para que el SO pueda interactuar con un Hardware en específico.
+
+## 3. ¿Porque es necesario escribir drivers?
+
+La necesidad de usar drivers proviene de que los dispositivos de Hardware tienen características y funcionalidades muy distintas entre sí, por lo que el SO necesita de una interfaz de Software a través de la cual pueda comunicarse correctamente con los dispositivos.
+
+## 4. ¿Cuál es la relación entre modulo y driver en GNU/Linux?
+
+Los módulos pueden usarse como un mecanismo para instalar drivers en el SO sin necesidad de recompilar el núcleo.
+
+Hoy en día casi todos los drivers se pueden instalar como módulos, aunque aún hay casos en los que se requiere la recompilación; algunos de estos pueden ser los controladores en modo Kernel o aquellos que también requieren cambiar la configuración del SO.
+
+## 5. ¿Qué implicancias puede tener un bug en un driver o módulo?
+
+Un bug en un driver o en un módulo podría traer consecuencias en el sistema tales como:
+* Funcionalidades con resultados fallidos.
+* Incompatibilidad con los dispositivos de Hardware.
+* Vulnearbilidades de seguridad.
+
+## 6. ¿Qué tipos de drivers existen en GNU/Linux?
+
+Los drivers pueden dividirse en:
+* **De dispositivos de Hardware:** destinados a HW específico, como tarjetas gráficas, impresoras, etc. Permiten que el SO interactúe con los dispositivos.
+* **De red:** se encargan de las interfaces de comunicación entre redes, tanto inalámbricas como por cable.
+* **De almacenamiento:** permiten que el SO gestione dispositivos de almacenamiento como discos duros, sólidos o tarjetas de memoria.
+* **De virtualización:** permiten el uso de entornos virtuales y la comunicación entre el sistema virtual con el SO anfitrión.
+
+## 7. ¿Que hay en el directorio `/dev`? ¿Qué tipos de archivo encontramos en esa ubicación?
+
+`/dev` es un directorio en el que se almacenan archivos referentes a los dispositivos.
+
+## 8. ¿Para qué sirven el archivo /lib/modules/`version`/modules.dep utilizado por el comando modprobe?
+
+Es un archivo usado por el comando `modprobe` para verificar las dependencias entre los distintos módulos del sistema operativo. De esta manera el SO puede saber qué otros módulos debe cargar antes de ejecutar uno en específico.
+
+Cada línea del archivo describe una dependencia entre dos módulos. Cuando se carga un módulo con el comando `modprobe`, se busca en el archivo todos los módulos de los que dependa el que se esté cargando; al hacer esto, se cargan secuencialmente todos los módulos para que las dependencias se resuelvan correctamente.
