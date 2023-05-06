@@ -169,3 +169,58 @@ Los drivers pueden dividirse en:
 Es un archivo usado por el comando `modprobe` para verificar las dependencias entre los distintos módulos del sistema operativo. De esta manera el SO puede saber qué otros módulos debe cargar antes de ejecutar uno en específico.
 
 Cada línea del archivo describe una dependencia entre dos módulos. Cuando se carga un módulo con el comando `modprobe`, se busca en el archivo todos los módulos de los que dependa el que se esté cargando; al hacer esto, se cargan secuencialmente todos los módulos para que las dependencias se resuelvan correctamente.
+
+# Agregar módulo al Kernel
+
+## 1. Crear archivo `memory.c`
+
+<img src="./img/Practica 2/ej3.1.1.png">
+
+## 2. Crear el archivo `Makefile`
+
+<img src="./img/Practica 2/ej3.2.1.png">
+
+Un archivo `Makefile` sirve para dar instrucciones sobre qué hacer con cada archivo al momento de compilarlos.
+
+La macro `MODULE_LICENSE` sirve para indicar la licencia sobre la que se distribuye el código del módulo. Es obligatoria en caso de que el módulo se distribuya públicamente.
+
+## 3. Compilar módulo
+
+<img src="./img/Practica 2/ej3.3.1.png">
+
+Generó los archivos:
+* `memory.o`: código objeto del compilador de C.
+* `Module.symvers`: contiene información sobre los símbolos usados por el módulo.
+* `memory.mod.o`: contiene información sobre el módulo compilado.
+* `memory.ko`: módulo compilado.
+
+## 4. Instalar módulo
+
+`insmod` es una herramienta más básica que únicamente se carga de cargar el módulo en el Kernel; `modprobe` hace uso de los archivos de configuración como `Module.symvers` para verificar las dependencias de un módulo antes de cargarlo.
+
+Cuando ejecuté `insmod memory.ko` no devolvió nada, así que ejecuté el grep por las dudas y devolvió esto:
+
+<img src="./img/Practica 2/ej3.4.1.png">
+
+`lsmod` lista todos los módulos instalados en el sistema; que el módulo que recién creamos aparezca en el resultado implica que se cargó correctamente.
+
+`/proc/modules` es un archivo que contiene información sobre los módulos actualmente cargados en el sistema. De cada módulo se sabe su nombre, dirección de memoria, tamaño, fecha de carga y un listado de otros módulos que dependen de él.
+
+## 6. Eliminar módulo
+
+Para eliminar un módulo usamos el comando `rmmod <nombre_modulo>`. Después de ejecutar el comando podemos usar nuevamente el `lsmod` para ver si se eliminó correctamente.
+
+<img src="./img/Practica 2/ej3.6.1.png">
+
+Como `lsmod | grep memory` devuelve una lista vacía, podemos suponer que el módulo se eliminó correctamente.
+
+## 7. Modificar el módulo
+
+<img src="./img/Practica 2/ej3.7.1.png">
+
+`module_init` y `module_exit` son macros de Linux que se ejecutan cuando el módulo se carga o se elimina del kernel, respectivamente.
+
+Los tipos de dispositivos en Linux son:
+* **Dispositivos de carácter:** transmiten y reciben caracteres de a uno. Se usan para la entrada y salida de datos no estructurados.
+* **Dispositivos de bloque:** transmiten y reciben datos en bloques de tamaño fijo. Se utilizan para manejar el almacenamiento y la recuperación de datos. Cada bloque se puede acceder mediante un número único de bloque.
+* **Dispositivos de red:** transmiten y reciben datos a través de la red.
