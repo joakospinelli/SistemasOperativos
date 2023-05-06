@@ -224,3 +224,23 @@ Los tipos de dispositivos en Linux son:
 * **Dispositivos de carácter:** transmiten y reciben caracteres de a uno. Se usan para la entrada y salida de datos no estructurados.
 * **Dispositivos de bloque:** transmiten y reciben datos en bloques de tamaño fijo. Se utilizan para manejar el almacenamiento y la recuperación de datos. Cada bloque se puede acceder mediante un número único de bloque.
 * **Dispositivos de red:** transmiten y reciben datos a través de la red.
+
+# Desarrollar driver
+
+## 1. Escribir código de driver
+
+Larguísimo así que no lo voy a pegar acá
+
+## 2. Instalar driver
+
+No devolvieron nada ninguno de los 2 comandos
+
+`mknod` es un comando para crear nodos de dispositivo. Los parámetros que se le pasan son:
+1. Nombre del nodo a crear.
+2. Tipo de dispositivo (`c` para caracter o `b` para bloque),
+3. Número de dispositivo mayor.
+4. Número de dispositivo menro.
+
+## 4. Escribir en dispositivo
+
+Acá me dice que no encuentra `/dev/memory` y no sé por qué si cuando lo busco con `ls` en dev lo encuentro 😴😴😴
